@@ -409,7 +409,7 @@ a {
         font-size: 54px; } }
   .hero p {
     color: rgba(255, 255, 255, 0.5);
-    margin-botom: 30px; }
+    margin: 30px; }
   .hero .hero-img-wrap {
     position: relative; }
     .hero .hero-img-wrap img {
@@ -606,7 +606,7 @@ a {
   .we-help-section .imgs-grid {
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: (1fr)[27];
+    -ms-grid-columns: (1fr)27;
     grid-template-columns: repeat(27, 1fr);
     position: relative; }
     .we-help-section .imgs-grid:before {
@@ -999,3 +999,5 @@ textarea {
     height: 50px;
     border-radius: 50%;
     background: rgba(59, 93, 80, 0.2); }
+  }
+  

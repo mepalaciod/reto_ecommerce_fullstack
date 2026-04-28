@@ -2,7 +2,7 @@
 
 Nombre del Proyecto: Fullstack Chanllenge
 Autor: María Palacio Duque
-Repositorio: 
+Repositorio: https://github.com/mepalaciod/reto_fullstack
 Deploy (GitHubPages):
 
 Reto para practicar las habilidades de un desarrollador fullstack moderno.
