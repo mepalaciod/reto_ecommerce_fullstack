@@ -1,6 +1,6 @@
-import ProductCard from "../../molecules/ProductCard";
 import { useEffect } from "react";
 import useProductsStore from "../../../store/productsStore";
+import ProductGallery from './ProductGallery';
 
 export default function Gallery() {
     const products = useProductsStore((state) => state.products);
@@ -23,20 +23,16 @@ export default function Gallery() {
     }
 
     return (
-        <section className="p-6">
-            <h2 className="mb-6 text-2xl font-bold">Nuestros Productos</h2>
-
+        <>
             {error ? (
-                <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-                    {error}
+                <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                        {error}
+                    </div>
                 </div>
             ) : null}
 
-            <div className="grid grid-cols-1 gap-6 justify-items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {products.map((producto) => (
-                    <ProductCard key={producto.id} product={producto} />
-                ))}
-            </div>
-        </section>
+            <ProductGallery products={products} title="Nuestros Productos" />
+        </>
     );
 }
