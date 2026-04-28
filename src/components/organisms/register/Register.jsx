@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import MOCK_USERS from "../../../mockdata/mock_users"
 import { registerFullUser } from "../../../firebase/auth"
-import axios from "axios";
+import Button from '../../atoms/Button';
+import Input from '../../atoms/Input';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -68,18 +68,17 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      {/* Reducción de max-w y padding para evitar el scroll vertical */}
-      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden transition-all">
+    <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center bg-slate-50 p-4">
+      <div className="w-full max-w-4xl overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all">
         <div className="p-6 md:p-10">
 
-          <header className="mb-6 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Crear cuenta</h2>
-            <p className="text-gray-500 text-sm mt-1">Únete a nuestra comunidad hoy mismo</p>
+          <header className="mb-8 text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">Crear cuenta</h2>
+            <p className="mt-2 text-sm text-slate-500">Únete a nuestra comunidad hoy mismo</p>
           </header>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            <div className="mb-6 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
               {error}
             </div>
           )}
@@ -87,96 +86,76 @@ const Register = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
 
-              {/* Columna Izquierda: Información Personal */}
               <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Nombre completo</label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none transition-all placeholder:text-gray-400"
-                    placeholder="Ej. Juan Pérez"
-                    onChange={handleChange}
-                  />
-                </div>
+                <Input
+                  label="Nombre completo"
+                  name="name"
+                  type="text"
+                  required
+                  placeholder="Ej. Juan Pérez"
+                  onChange={handleChange}
+                />
 
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Correo electrónico</label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none transition-all placeholder:text-gray-400"
-                    placeholder="correo@ejemplo.com"
-                    onChange={handleChange}
-                  />
-                </div>
+                <Input
+                  label="Correo electrónico"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="correo@ejemplo.com"
+                  onChange={handleChange}
+                />
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Celular</label>
-                    <input
-                      type="tel"
-                      name="cellphone"
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none transition-all"
-                      placeholder="+57 300..."
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Dirección</label>
-                    <input
-                      type="text"
-                      name="address"
-                      className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none transition-all"
-                      placeholder="Calle 123..."
-                      onChange={handleChange}
-                    />
-                  </div>
+                  <Input
+                    label="Celular"
+                    name="cellphone"
+                    type="tel"
+                    placeholder="+57 300..."
+                    onChange={handleChange}
+                  />
+                  <Input
+                    label="Dirección"
+                    name="address"
+                    type="text"
+                    placeholder="Calle 123..."
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
 
-              {/* Columna Derecha: Seguridad */}
               <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Contraseña</label>
-                  <input
-                    type="password"
-                    name="password"
-                    required
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none transition-all"
-                    placeholder="••••••••"
-                    onChange={handleChange}
-                  />
-                  <p className="text-[10px] text-gray-400 mt-1 italic">Mínimo 8 caracteres (letras y números).</p>
-                </div>
+                <Input
+                  label="Contraseña"
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="••••••••"
+                  hint="Mínimo 8 caracteres (letras y números)."
+                  onChange={handleChange}
+                />
 
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Confirmar contraseña</label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    required
-                    className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 outline-none transition-all"
-                    placeholder="••••••••"
-                    onChange={handleChange}
-                  />
-                </div>
+                <Input
+                  label="Confirmar contraseña"
+                  name="confirmPassword"
+                  type="password"
+                  required
+                  placeholder="••••••••"
+                  onChange={handleChange}
+                />
               </div>
             </div>
 
-            {/* Acción y Footer más compactos */}
             <div className="pt-4 space-y-4">
-              <button
+              <Button
                 type="submit"
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md hover:shadow-lg transition-all active:scale-[0.98] text-base"
+                size="lg"
+                className="w-full"
               >
                 Registrarse
-              </button>
+              </Button>
 
-              <p className="text-center text-sm text-gray-500">
-                ¿Ya tienes una cuenta? <Link to="/login" className="text-indigo-600 font-semibold hover:underline">Inicia sesión</Link>
+              <p className="text-center text-sm text-slate-500">
+                ¿Ya tienes una cuenta? <Link to="/login" className="font-semibold text-slate-900 hover:underline">Inicia sesión</Link>
               </p>
             </div>
           </form>

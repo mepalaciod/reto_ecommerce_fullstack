@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getProductById } from '../../../firebase/products';
 import { imageMap } from '../../../assets/imageMap';
 import useCartStore from '../../../store/cartStore';
+import useProductsStore from '../../../store/productsStore';
 
 export default function ProductDetail() {
     const { id } = useParams();
@@ -13,13 +13,14 @@ export default function ProductDetail() {
     const [added, setAdded] = useState(false);
 
     const addItem = useCartStore((state) => state.addItem);
+    const fetchProductById = useProductsStore((state) => state.fetchProductById);
 
     useEffect(() => {
-        getProductById(id).then((data) => {
+        fetchProductById(id).then((data) => {
             setProduct(data);
             setLoading(false);
         });
-    }, [id]);
+    }, [fetchProductById, id]);
 
     const handleAddToCart = () => {
         addItem(product, quantity);
@@ -37,8 +38,8 @@ export default function ProductDetail() {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+            <div className="flex h-64 items-center justify-center">
+                <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-slate-900"></div>
             </div>
         );
     }
@@ -49,7 +50,7 @@ export default function ProductDetail() {
                 <p className="text-xl text-gray-600">Producto no encontrado.</p>
                 <button
                     onClick={() => navigate('/gallery')}
-                    className="px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
+                    className="rounded-lg bg-slate-900 px-6 py-2 font-medium text-white transition-opacity hover:opacity-90"
                 >
                     Volver a la galería
                 </button>

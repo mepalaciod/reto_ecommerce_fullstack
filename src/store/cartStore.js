@@ -1,33 +1,44 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
-const useCartStore = create((set, get) => ({
-    items: [],
+const useCartStore = create(
+    persist(
+        (set, get) => ({
+            items: [],
 
-    addItem: (product, quantity) => {
-        const existing = get().items.find(item => item.product.id === product.id);
-        if (existing) {
-            set({
-                items: get().items.map(item =>
-                    item.product.id === product.id
-                        ? { ...item, quantity: item.quantity + quantity }
-                        : item
-                )
-            });
-        } else {
-            set({ items: [...get().items, { product, quantity }] });
-        }
-    },
+            addItem: (product, quantity) => {
+                const existing = get().items.find((item) => item.product.id === product.id);
 
-    removeItem: (id) => {
-        set({ items: get().items.filter(item => item.product.id !== id) });
-    },
+                if (existing) {
+                    set({
+                        items: get().items.map((item) =>
+                            item.product.id === product.id
+                                ? { ...item, quantity: item.quantity + quantity }
+                                : item,
+                        ),
+                    });
+                } else {
+                    set({ items: [...get().items, { product, quantity }] });
+                }
+            },
 
-    clearCart: () => set({ items: [] }),
+            removeItem: (id) => {
+                set({ items: get().items.filter((item) => item.product.id !== id) });
+            },
 
-    getTotalItems: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
+            clearCart: () => set({ items: [] }),
 
-    getTotalPrice: () =>
-        get().items.reduce((sum, item) => sum + parseFloat(item.product.price) * item.quantity, 0),
-}));
+            getTotalItems: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
+
+            getTotalPrice: () =>
+                get().items.reduce((sum, item) => sum + parseFloat(item.product.price) * item.quantity, 0),
+        }),
+        {
+            name: 'reto-cart-store',
+            storage: createJSONStorage(() => localStorage),
+            partialize: (state) => ({ items: state.items }),
+        },
+    ),
+);
 
 export default useCartStore;
