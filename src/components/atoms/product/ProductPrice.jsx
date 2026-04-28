@@ -1,6 +1,6 @@
 function ProductPrice({ price }) {
     return (    
-        <div className="text-xl font-semibold text-gray-900">
+        <div className="text-2xl font-bold text-brand-green">
             ${price}
         </div>
     );

@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { subscribeToAuthChanges } from '../../../firebase/auth';
+import useCartStore from '../../../store/cartStore';
 
 function joinClassNames(...parts) {
   return parts.filter(Boolean).join(' ');
@@ -9,6 +10,7 @@ function joinClassNames(...parts) {
 export default function Header() {
   const location = useLocation();
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const totalItems = useCartStore((state) => state.getTotalItems());
 
   useEffect(() => {
     const unsubscribe = subscribeToAuthChanges((currentUser) => {
@@ -22,47 +24,68 @@ export default function Header() {
 
   const navLinkClass = (path) =>
     joinClassNames(
-      'rounded-full px-4 py-2 text-sm font-medium transition-colors',
-      isActive(path) ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+      'rounded-full px-5 py-2 text-sm font-medium transition-all duration-300 relative',
+      isActive(path) 
+        ? 'bg-brand-green text-white shadow-dna' 
+        : 'text-white hover:text-white/80 group'
     );
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 text-sm font-black text-white shadow-sm">
-            R
+    <header className="sticky top-0 z-50 bg-brand-green shadow-dna">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        {/* Logo */}
+        <Link to="/" className="flex flex-shrink-0 items-center gap-3">
+          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-yellow text-base font-black text-brand-dark shadow-md hover:shadow-lg transition-shadow">
+            P
           </span>
-          <div className="leading-tight">
-            <p className="text-base font-semibold text-slate-900">Reto Fullstack</p>
-            <p className="text-xs text-slate-500">Atomic Design storefront</p>
+          <div className="leading-tight hidden sm:block">
+            <p className="text-lg font-bold text-white tracking-tight">POSATA</p>
+            <p className="text-xs text-white/75 font-medium">Beauty Store</p>
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-2 md:flex">
-          <Link to="/gallery" className={navLinkClass('/gallery')}>
-            Gallery
+        {/* Nav Desktop */}
+        <nav className="hidden items-center gap-1 md:flex ml-auto">
+          <Link to="/gallery" className={joinClassNames('nav-link', isActive('/gallery') ? 'active' : '')}>
+            📚 Gallery
+          </Link>
+          <Link to="/cart" className={joinClassNames('nav-link relative', isActive('/cart') ? 'active' : '')}>
+            🛒 Cart
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 inline-flex min-w-5 items-center justify-center rounded-full bg-brand-yellow text-xs font-bold text-brand-dark">
+                {totalItems}
+              </span>
+            )}
           </Link>
           {loggedInUser ? (
-            <Link to="/profile" className={navLinkClass('/profile')}>
-              Profile
+            <Link to="/profile" className={joinClassNames('nav-link', isActive('/profile') ? 'active' : '')}>
+              👤 Profile
             </Link>
           ) : (
             <>
-              <Link to="/login" className={navLinkClass('/login')}>
-                Login
+              <Link to="/login" className={joinClassNames('nav-link', isActive('/login') ? 'active' : '')}>
+                🔓 Login
               </Link>
-              <Link to="/register" className={navLinkClass('/register')}>
-                Register
+              <Link to="/register" className={joinClassNames('nav-link', isActive('/register') ? 'active' : '')}>
+                ✍️ Sign Up
               </Link>
             </>
           )}
         </nav>
 
-        <div className="md:hidden">
-          <span className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-600">
-            Menu
-          </span>
+        {/* Mobile Menu */}
+        <div className="md:hidden ml-auto flex items-center gap-3">
+          <Link to="/cart" className="relative inline-flex items-center px-2 py-2 text-white hover:text-white/80 transition-colors">
+            <span className="text-lg">🛒</span>
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 inline-flex min-w-5 items-center justify-center rounded-full bg-brand-yellow text-xs font-bold text-brand-dark">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+          <button className="rounded-full border border-white/30 bg-white/10 px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-white/20">
+            ☰
+          </button>
         </div>
       </div>
     </header>

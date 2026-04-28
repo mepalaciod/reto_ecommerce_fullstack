@@ -3,21 +3,23 @@ function joinClassNames(...parts) {
 }
 
 const baseClasses =
-  'inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60';
+  'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-semibold tracking-[0.04em] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-60 cursor-pointer will-change-transform';
 
 const variants = {
   primary:
-    'bg-slate-900 text-white shadow-sm hover:-translate-y-0.5 hover:bg-slate-800 focus-visible:ring-slate-900',
+    'bg-brand-green text-white shadow-dna hover:-translate-y-0.5 hover:shadow-glow hover:brightness-105 focus-visible:ring-brand-green/30',
   secondary:
-    'border border-slate-300 bg-white text-slate-800 hover:border-slate-400 hover:bg-slate-50 focus-visible:ring-slate-400',
+    'bg-brand-yellow text-brand-dark shadow-dna hover:-translate-y-0.5 hover:shadow-glow hover:brightness-105 focus-visible:ring-brand-yellow/30',
+  outline:
+    'border-2 border-white bg-transparent text-white hover:bg-white hover:text-brand-green focus-visible:ring-white/30',
   ghost:
-    'bg-transparent text-slate-700 hover:bg-slate-100 focus-visible:ring-slate-400',
+    'bg-transparent px-4 py-2 text-brand-gray hover:bg-brand-light focus-visible:ring-brand-light/30',
 };
 
 const sizes = {
-  sm: 'px-3 py-2 text-sm',
-  md: 'px-4 py-2.5 text-sm',
-  lg: 'px-5 py-3 text-base',
+  sm: 'px-4 py-2 text-xs',
+  md: 'px-6 py-3 text-sm',
+  lg: 'px-8 py-3.5 text-base',
 };
 
 export default function Button({
@@ -25,16 +27,15 @@ export default function Button({
   size = 'md',
   className = '',
   type = 'button',
+  as: Component = 'button',
   children,
   ...props
 }) {
+  const componentProps = Component === 'button' ? { type, ...props } : props;
+
   return (
-    <button
-      type={type}
-      className={joinClassNames(baseClasses, variants[variant], sizes[size], className)}
-      {...props}
-    >
+    <Component className={joinClassNames(baseClasses, variants[variant], sizes[size], className)} {...componentProps}>
       {children}
-    </button>
+    </Component>
   );
 }

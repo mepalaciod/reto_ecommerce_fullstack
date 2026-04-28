@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import smile from "../../../assets/smile.png";
-import { loginUser } from "../../../firebase/auth";
+import MOCK_USERS from '../../../mockdata/mock_users';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
 
@@ -20,28 +20,22 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
-    /*
-    // Obtener usuarios registrados
+    // Mock login using mock_users + registeredUsers in localStorage
     const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
     const allUsers = [...MOCK_USERS, ...registeredUsers];
 
-    // Buscar usuario
     const user = allUsers.find(u => u.email === formData.email && u.password === formData.password);
     if (user) {
-      // Login exitoso
       localStorage.setItem('loggedInUser', JSON.stringify(user));
       navigate('/gallery');
-    } else {
-      setError('Credenciales incorrectas.');
+      return;
     }
-      */
-    const result = await loginUser(formData.email, formData.password);
-    if (result.success) {
-      navigate('/gallery');
-    } else {
-      setError(result.error);
-    }
+
+    // Fallback: if firebase is configured, try remote login (kept commented intentionally)
+    // const result = await loginUser(formData.email, formData.password);
+    // if (result.success) { navigate('/gallery'); return; }
+
+    setError('Credenciales incorrectas.');
   };
   return (
     <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center bg-slate-50 p-6">
