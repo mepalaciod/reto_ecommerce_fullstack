@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { subscribeToAuthChanges } from '../../../firebase/auth';
 import useCartStore from '../../../store/cartStore';
+import logo from '../../../assets/Logo-posaTa-Full-color.png';
 
 function joinClassNames(...parts) {
   return parts.filter(Boolean).join(' ');
@@ -38,9 +39,9 @@ export default function Header() {
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-yellow text-base font-black text-brand-dark shadow-md hover:shadow-lg transition-shadow">
             P
           </span>
-          <div className="leading-tight hidden sm:block">
-            <p className="text-lg font-bold text-white tracking-tight">POSATA</p>
-            <p className="text-xs text-white/75 font-medium">Beauty Store</p>
+          <div className="leading-tight flex flex-col items-start">
+            <img src={logo} alt="POSATA" className="h-12 sm:h-16 md:h-20 w-auto object-contain" />
+            <span className="sr-only">Beauty Store</span>
           </div>
         </Link>
 

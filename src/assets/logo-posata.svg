@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="360" height="140" viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">Posata Distribuciones</title>
+  <desc id="logoDesc">Logo Posata con puntos coloridos y tipografía script</desc>
+  <defs>
+    <style>
+      .brand-text { font-family: 'Brush Script MT', 'Brush Script Std', 'Segoe Script', cursive; font-size:54px; fill:#2f2f2f; font-weight:400; }
+      .sub { font-family: Inter, Arial, sans-serif; font-size:11px; fill:#5f5f5f; letter-spacing:3px; }
+      .dot { filter: drop-shadow(0 1px 0 rgba(0,0,0,0.03)); }
+      .arc { fill: none; stroke: #444; stroke-width:3; stroke-linecap:round; opacity:0.8 }
+    </style>
+  </defs>
+
+  <!-- colored dots (left to right: pink, purple, mint) -->
+  <circle class="dot" cx="170" cy="26" r="10" fill="#f3a6c8" />
+  <circle class="dot" cx="200" cy="26" r="10" fill="#6f4bb0" />
+  <circle class="dot" cx="230" cy="26" r="10" fill="#bfe6d2" />
+
+  <!-- brand word - centered-ish -->
+  <text x="60" y="78" class="brand-text">Posata</text>
+
+  <!-- subtitle -->
+  <text x="110" y="102" class="sub">DISTRIBUCIONES</text>
+
+  <!-- decorative arc under the subtitle -->
+  <path class="arc" d="M95 112 C150 140 210 140 300 112" />
+</svg>
